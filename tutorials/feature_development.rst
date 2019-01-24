@@ -6,7 +6,7 @@ Feature development
 :Version: 1.0 of 16/01/2019
 
 
-In this tutorial we are going to add the roughness formula of Järvelä (2004) and Västilä & Järvelä (2017) to the Delft3D FM source code. We will then build a model which is subsequently tested against experimental data, to test whether our implementation was done correctly. Finally, we prepare a validation document detailing both our proposed new feature and validation results, which will be submitted for review by Deltares. 
+In this tutorial we are going to add the roughness formula Västilä & Järvelä (2017) to the Delft3D FM source code. We will then build a model which is subsequently tested against experimental data, to test whether our implementation was done correctly. Finally, we prepare a validation document detailing both our proposed new feature and validation results, which will be submitted for review by Deltares. 
 If the new feature was correctly implemented, does not break other functionality and is well validated, the new feature will be considered for implementation in the trunk (i.e., staged for release). 
 
 
@@ -52,19 +52,23 @@ An overview of test models is available from the `Riverlab website <https://oss.
 
 [Optional] add a new testmodel
 ---------------------------
-Often when you implement new functionality, existing test models will not be sufficient to validate your implementation. In such cases, you need to build a new test model. Just as with the source code, you can take advantage of version control for model development. If you followed the previous steps, you already checked out the existing riverlab testmodels to your local machine. To add a new test model, you may add a new folder and commit your files to this folder. It is important to follow the naming conventions:: 
-	\testcases
+Often when you implement new functionality, existing test models will not be sufficient to validate your implementation. In such cases, you need to build a new test model. Just as with the source code, you can take advantage of version control for model development. If you followed the previous steps, you already checked out the existing riverlab testmodels to your local machine. To add a new test model, you may add a new folder and commit your files to this folder. It is important to follow the naming conventions
 
-This is the top directory:: 
-	\testcases\f[#]_[name]	
+	``\testcases``
+
+This is the top directory
+
+	``\testcases\f[#]_[name]``
 
 These folders contain testcases for specific functionality. If you add a new one, replace # with the next number in the folder (e.g. if the previous was names 'f20_openchannelflow' then yours will begin with 'f21_...'). Use a descriptive name. 
 
-In our case, the previous testcase was [f29_mor1d2d_morfologie] and we will add functionality regarding a vegetation model. Therefore, we name add the folder [f30_aalto_vegetation_models]::
-	\testcases\f[#]_[name]\c[#]_name
+In our case, the previous testcase was [f29_mor1d2d_morfologie] and we will add functionality regarding a vegetation model. Therefore, we name add the folder [f30_aalto_vegetation_models]
 
-These folders contain testcases. Each testcase should have at least the following data: the Delft3D FM model files (input only, no output!) and the validation document. All model files are stored in this directory::
-	\testcases\f[#]_[name]\c[#]_name\doc
+	``\testcases\f[#]_[name]\c[#]_name``
+
+These folders contain testcases. Each testcase should have at least the following data: the Delft3D FM model files (input only, no output!) and the validation document. All model files are stored in this directory
+
+	``\testcases\f[#]_[name]\c[#]_name\doc``
 
 This directory contains the source code (LaTeX) of the validation document. Each testcase validates a certain claim about (a newly implemented part of) the software. For example, in our case we will claim that the numerical model is able to reproduce laboratory experiments under a set of given conditions. The validation document details the purpose of this testcase, the linked claims, the test approach, model setup, results and conclusions. 
 
@@ -82,7 +86,7 @@ At this point, we assume you already have the source locally from the `Checkout 
 For this example, we will compile the Delft3D FM source (revision 62958) with `Visual Studio 2012 <https://visualstudio.microsoft.com/vs/older-downloads/>`_ and `Intel Parellel Studio XE 2013 SP 1 <https://software.intel.com/en-us/intel-parallel-studio-xe-compilers-required-microsoft-visual-studio>`_, which includes C++ and Fortran compilers on Windows 7. 
 Following the README we create 'solution files' for Visual Studio by running ``src/prepare_sln.py``. Note that need Python installed (and, available in your PATH variable) to run this script. We then open 'dflowfm_open.sln' with Visual Studio.
 
-In the solution explorer, we first change the build configuration (right click on ``solution 'dflowfm_open'``` and choose ``configuration manager``) to ``release`` and ``x64``. Next,s we are going to build ``dflowfm-cli``. This builds the command line interface, including ``dflowfm-cli.exe``. We need this executable to be able to run our actual models. Note that this does not include a graphical user interface. 
+In the solution explorer, we first change the build configuration (right click on ``solution 'dflowfm_open'`` and choose ``configuration manager``) to ``release`` and ``x64``. Next,s we are going to build ``dflowfm-cli``. This builds the command line interface, including ``dflowfm-cli.exe``. We need this executable to be able to run our actual models. Note that this does not include a graphical user interface. 
 
 .. image:: img/vs_sln_dflowfm-cli.png
 
@@ -96,7 +100,18 @@ To start building is as simple as -rightlick, -build, however we were not succes
 
 Next, we change the configuration from ``release`` to ``debug``. This prevents the precompiler to throw many errors regarding the omission of PETSc. With these changes, we were able to successfully build ``dflowfm-cli``. The resulting libraries (``*.dll``) and executable (``dflowfm-cli.exe``) can be found under ``src/bin/x64/Debug/dflowfm``.
 
+Test your build (Riverlab models)
+---------------------------
+Before modifying anything it is good practice to test your build first. We assume you already have all testmodels available in RiverLab (`Checkout the testmodels`_). We're going to try to run the test ``c01_mc_sediment_transport_Engelund_Hansen``. Navigate to this test. In this directory, open a command window and type::
+
+	[PATH_TO_FM]/dflowfm-cli.exe --autostartstop -t 1 c01.mdu 
+
+Depending on your computer, the model should be evaluated in about 10-15 seconds. We used the following flags: ``--autostartstop`` starts the model run and exits after completion, ``-t 1`` specifies that model should be run in a single thread and ``c01.mdu`` is the model configuration file. After the model has run, you should be able to see the ``dflowfmoutput`` folder. You can inspect the output (``*.nc`` files).
+
+Test your build (Aalto flume)
+---------------------------
+To test the models, we replicate the conditions of the physical experiment by Västilä & Järvelä (2017) in D-Flow FM. For more information on how to build testmodels see `Model development <./tutorials/model_development.rst>`_. 
+
+
 Modifying the source
 ---------------------------
-
-
