@@ -115,3 +115,57 @@ To test the models, we replicate the conditions of the physical experiment by VÃ
 
 Modifying the source
 ---------------------------
+
+With our test framework in place, we can start modifying the source and test our versions. In our case, the modification is relatively limited. The main addition to the source was in `trtrou.f90`:
+
+```
+elseif (ircod==155) then
+     !
+     ! Vaestilae & Jaervelae (2014) formula
+     !
+     
+     ! input parameters
+     densit         = rttdef(itrt, 1)
+     drag           = rttdef(itrt, 2)
+     uchistem       = rttdef(itrt, 3)
+     expchistem     = rttdef(itrt, 4)
+     densitfoliage  = rttdef(itrt, 5)
+     dragfoliage    = rttdef(itrt, 6)
+     uchifoliage    = rttdef(itrt, 7)
+     expchifoliage  = rttdef(itrt, 8)
+     cbed           = rttdef(itrt, 9)
+	          
+     ! Calculate roughness
+     if (umag > 0d0) then 
+     ch_icode = 1.0_fp/sqrt(1.0_fp/(cbed*cbed) + & 
+              &             (drag*densit*(umag/uchistem)**expchistem + &
+              &              densitfoliage*dragfoliage*(umag/uchifoliage)**expchifoliage)/(2.0_fp*ag))
+     else
+         ! zero umag will through dividebyzero error (since expchi are expected to be negative)
+         ! so for zero velocities, use cbed instead
+         ch_icode = cbed
+     endif
+     rgh_type = ch_type
+     rgh_geom = area_rgh
+```
+
+For a full overview of the changes, compare revision 63011 with revision 62997 of our branch (see `Requesting a new branch of the source code`_).
+
+
+
+Document the changes
+===========================
+
+At this point we have modified the source and setup a series of tests to validate that our implementation was correct. The final steps in the workflow are to document this, so that other people understand what we have added, be convinced that our implementation is correct and are guided in using our new feature. There are three documents that we need to provide or edit: (1) write a validation document, (2) edit the user manual, (3) edit the technical manual. All documents are in LaTeX. 
+
+Validation document
+---------------------------
+The purpose of the validation document is to report specific cases that test our new feature. The template for the validation document can be downloaded here (TODO: add template to git?)
+
+User manual
+---------------------------
+(to be added)
+
+Technical manual
+---------------------------
+(to be added)
