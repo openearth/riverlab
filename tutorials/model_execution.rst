@@ -25,7 +25,7 @@ After the model has run, you should be able to see the ``dflowfmoutput`` folder.
 
 Inspecting output
 =============================
-You can inspect the output (``*.nc`` files), with a standard NCF-viewer. 
+You can inspect the output (``*.nc`` files), with a standard NetCDF-viewer. 
 Furthermore specific Matlab scripts are available in `Open Earth Tools <https://svn.oss.deltares.nl/repos/openearthtools/trunk/matlab/applications/delft3d/+dflowfm>`_ and provided with the different schematic cases.
 Also **Quickplot** can be used to plot the results. This tool is delivered with the official (compiled) release of the software or also
 available via Open Earth as `Matlab tool <https://svn.oss.deltares.nl/repos/delft3d/trunk/src/tools_lgpl/matlab/quickplot/progsrc>`_. 
