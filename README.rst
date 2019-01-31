@@ -14,6 +14,7 @@ Riverlab offers a framework for a variety of use cases. Not all will be applicab
 
 
 - `Model management </tutorials/model_testing.rst>`_ | *Download existing models & upload changes and new models*
+- `Model execution </tutorials/model_execution.rst>`_ | *Running the model*
 - `Model development </tutorials/model_development.rst>`_ | *Build your own model from scratch*
 - `Compile source code </tutorials/compile_sourcecode.rst>`_ | *Download the source code and compile your own version of the software*
 - `Feature development </tutorials/feature_development.rst>`_ | *Modify the source code, prepare validation test and submit changes for review*
