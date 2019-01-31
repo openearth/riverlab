@@ -21,4 +21,11 @@ Navigate to the directory with the .mdu-file of your model. In this directory, o
 We used the following flags: ``--autostartstop`` starts the model run and exits after completion, 
 ``-t 1`` specifies that model should be run in a single thread, 
 ``c01.mdu`` is the model configuration file and ``output.log`` the file to which logging information is written. 
-After the model has run, you should be able to see the ``dflowfmoutput`` folder. You can inspect the output (``*.nc`` files).
+After the model has run, you should be able to see the ``dflowfmoutput`` folder. 
+
+Inspecting output
+=============================
+You can inspect the output (``*.nc`` files), with a standard NCF-viewer. 
+Furthermore specific Matlab scripts are available in 'Open Earth Tools <https://svn.oss.deltares.nl/repos/openearthtools/trunk/matlab/applications/delft3d/+dflowfm>`_ and provided with the different schematic cases.
+Also **Quickplot** can be used to plot the results. This tool is delivered with the official (compiled) release of the software or also
+available via Open Earth as 'Matlab tool <https://svn.oss.deltares.nl/repos/delft3d/trunk/src/tools_lgpl/matlab/quickplot/progsrc>'_. 
